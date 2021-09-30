@@ -1,57 +1,55 @@
 import React from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-
+import { LineChart, Line, YAxis, XAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { useRechartToPng } from "recharts-to-png";
 function Chart() {
-
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF'];
-
-    const pieData = [
+    const [png, ref] = useRechartToPng();
+    const data = [
         {
-            "name": "Chrome",
-            "value": 68.85
+            "name": "Jan 2019",
+            "Product A": 3432,
+            "Product B": 2342
         },
         {
-            "name": "Firefox",
-            "value": 7.91
+            "name": "Feb 2019",
+            "Product A": 2342,
+            "Product B": 3246
         },
         {
-            "name": "Edge",
-            "value": 6.85
+            "name": "Mar 2019",
+            "Product A": 4565,
+            "Product B": 4556
         },
         {
-            "name": "Internet Explorer",
-            "value": 6.14
+            "name": "Apr 2019",
+            "Product A": 6654,
+            "Product B": 4465
         },
         {
-            "name": "Others",
-            "value": 10.25
+            "name": "May 2019",
+            "Product A": 8765,
+            "Product B": 4553
         }
-    ];
-
-    const CustomTooltip = ({ active, payload, label }) => {
-        if (active) {
-            return (
-                <div className="custom-tooltip" style={{ backgroundColor: '#ffff', padding: '5px', border: '1px solid #cccc' }}>
-                    <label>{`${payload[0].name} : ${payload[0].value}%`}</label>
-                </div>
-            );
-        }
-
-        return null;
-    };
-
+    ]
 
     return (
-        <PieChart width={730} height={300}>
-            <Pie data={pieData} color="#000000" dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
-                {
-                    pieData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-                }
-            </Pie>
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-        </PieChart>
-    )
+        <>
+            <LineChart
+                ref={ref}
+                data={data}
+                height={300}
+                width={600}
+            >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend wrapperStyle={{ bottom: 0 }} />
+                <Line type="monotone" dataKey="Product A" stroke="#0095FF" />
+                <Line type="monotone" dataKey="Product B" stroke="#FF0000" />
+            </LineChart>
+
+        </>
+    );
 };
 
 
