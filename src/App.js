@@ -1,8 +1,10 @@
-import Chart from "./Chart";
+import ReChart from "./Chart";
+import './styles.css'
+
 function App() {
   return (
     <div className="App">
-      <Chart />
+      <ReChart />
     </div>
   );
 }

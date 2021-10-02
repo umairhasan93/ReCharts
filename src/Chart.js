@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import FileSaver from "file-saver";
 import { LineChart, Line, YAxis, XAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { useRechartToPng } from "recharts-to-png";
+import { useCurrentPng } from "recharts-to-png";
+import './styles.css'
+import { Document } from 'react-pdf'
+
+
 function Chart() {
-    const [png, ref] = useRechartToPng();
+
+    const [getAreaPng, { ref: areaRef }] = useCurrentPng();
+
+    const handleAreaDownload = useCallback(async () => {
+        const png = await getAreaPng();
+        if (png) {
+            FileSaver.saveAs(png, "line-chart.png");
+        }
+    }, [getAreaPng]);
+
     const data = [
         {
             "name": "Jan 2019",
@@ -12,41 +26,46 @@ function Chart() {
         {
             "name": "Feb 2019",
             "Product A": 2342,
-            "Product B": 3246
+            "Product B": 4246
         },
         {
             "name": "Mar 2019",
             "Product A": 4565,
-            "Product B": 4556
+            "Product B": 3556
         },
         {
             "name": "Apr 2019",
             "Product A": 6654,
-            "Product B": 4465
+            "Product B": 4865
         },
         {
             "name": "May 2019",
             "Product A": 8765,
-            "Product B": 4553
+            "Product B": 10553
         }
     ]
 
     return (
         <>
+            <h1 className='heading'>Line Chart</h1>
+            <Document file='area-chart.png' />
+
             <LineChart
-                ref={ref}
                 data={data}
                 height={300}
                 width={600}
+                margin={{ top: 15, left: 10 }}
+
             >
                 <XAxis dataKey="name" />
                 <YAxis />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
-                <Legend wrapperStyle={{ bottom: 0 }} />
+                <Legend />
                 <Line type="monotone" dataKey="Product A" stroke="#0095FF" />
                 <Line type="monotone" dataKey="Product B" stroke="#FF0000" />
             </LineChart>
+
 
         </>
     );

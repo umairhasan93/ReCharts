@@ -1,0 +1,11 @@
+.App {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.heading {
+    margin-left: 65px;
+    margin-bottom: 40px;
+    text-decoration:underline;
+    color: dodgerblue;
+}
